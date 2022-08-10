@@ -1,0 +1,31 @@
+#include <virtuabotixRTC.h>
+
+virtuabotixRTC myRTC(10,9,8);
+void setup() {
+  pinMode(7,OUTPUT);
+  pinMode(13,OUTPUT);
+   //giây/phút/giờ/thứ/ngày/tháng/năm
+  myRTC.setDS1302Time(30,35,14,4,10,8,2022);
+  Serial.begin(9600);
+  digitalWrite(7,0);
+}
+
+void loop() {
+myRTC.updateTime();
+Serial.println(myRTC.hours);
+Serial.println(myRTC.minutes);
+
+if(myRTC.hours==10 && myRTC.minutes==0){
+    digitalWrite(7,1);
+    digitalWrite(13,1);
+    delay(7200);
+    digitalWrite(7,0);
+    digitalWrite(13,0);
+}else{
+  digitalWrite(7,0);
+}
+  
+
+
+
+}
