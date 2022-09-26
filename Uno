@@ -1,31 +1,41 @@
 #include <virtuabotixRTC.h>
-
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x3F,16,2);
 virtuabotixRTC myRTC(10,9,8);
 void setup() {
+
+  lcd.begin();                    
+  lcd.backlight();
+
   pinMode(7,OUTPUT);
-  pinMode(13,OUTPUT);
+
    //giây/phút/giờ/thứ/ngày/tháng/năm
-  myRTC.setDS1302Time(30,35,14,4,10,8,2022);
+//  myRTC.setDS1302Time(40,9,12,2,29,8,2022);
   Serial.begin(9600);
   digitalWrite(7,0);
+
+  lcd.setCursor(1,1);
+  lcd.print("GIO TUOI: 10:30");
 }
 
 void loop() {
 myRTC.updateTime();
-Serial.println(myRTC.hours);
-Serial.println(myRTC.minutes);
+lcd.setCursor(0,0);
+lcd.print("               ");
+lcd.setCursor(5,0);
+lcd.print(myRTC.hours);
+lcd.setCursor(7,0);
+lcd.print(":");
+lcd.setCursor(8,0);
+lcd.print(myRTC.minutes);
 
-if(myRTC.hours==10 && myRTC.minutes==0){
+
+
+if(myRTC.hours==10 && myRTC.minutes==30){
     digitalWrite(7,1);
-    digitalWrite(13,1);
-    delay(7200);
-    digitalWrite(7,0);
-    digitalWrite(13,0);
 }else{
   digitalWrite(7,0);
 }
-  
-
-
-
+  delay(1000);
 }
